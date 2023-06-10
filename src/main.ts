@@ -35,6 +35,12 @@ function createGameboard() {
   }
   info.textContent = `${turn}'s turn`;
   gameBoard.addEventListener('click', handleGameboardClick);
+  const allTiles: NodeList = gameBoard.querySelectorAll('.tile');
+  allTiles.forEach((tile) => {
+    tile.addEventListener('mouseenter', handleMouseEnter);
+    tile.addEventListener('mouseleave', handleMouseLeave);
+  });
+  gameBoard?.removeAttribute('inert');
 }
 
 createGameboard();
@@ -45,6 +51,32 @@ function updateTurn() {
     return;
   }
   info.textContent = `${turn}'s turn`;
+}
+
+function restartGame() {
+  let seconds = 3;
+  const timer = setInterval(() => {
+    if (!info) {
+      return;
+    }
+    info.textContent = `Restarting in ${seconds}`;
+    seconds--;
+    if (seconds < 0) {
+      clearInterval(timer);
+      createGameboard();
+    }
+  }, 1000);
+}
+
+function showCongrats() {
+  if (!info) {
+    return;
+  }
+  info.textContent = `${turn} wins!`;
+
+  gameBoard?.removeEventListener('click', handleGameboardClick);
+  gameBoard?.setAttribute('inert', 'true');
+  setTimeout(restartGame, 1000);
 }
 
 function checkScore() {
@@ -59,7 +91,7 @@ function checkScore() {
     );
   });
   if (isWinner) {
-    return alert('you won!');
+    return showCongrats();
   }
   updateTurn();
 }
@@ -70,6 +102,26 @@ function handleGameboardClick(event: MouseEvent): void {
 
   if (!valueExists) {
     (event.target as HTMLElement).dataset.value = turn;
+    (event.target as HTMLElement).style.setProperty(
+      '--hue',
+      turn === 'X' ? '10' : '200'
+    );
     checkScore();
   }
+}
+
+function handleMouseEnter(event: MouseEvent): void {
+  const valueExists: string | undefined = (event.target as HTMLElement)?.dataset
+    .value;
+  if (!valueExists) {
+    (event.target as HTMLElement).dataset.hover = turn;
+    (event.target as HTMLElement).style.setProperty(
+      '--hue',
+      turn === 'X' ? '10' : '200'
+    );
+  }
+}
+
+function handleMouseLeave(event: MouseEvent): void {
+  (event.target as HTMLElement).dataset.hover = '';
 }

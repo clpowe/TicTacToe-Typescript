@@ -53,17 +53,25 @@ p {
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: clamp(2rem, calc(10vw+1rem), 10rem);
+  color: hsl(var(--hue) 60% 50%);
   font-weight: bold;
   aspect-ratio: 1/1;
   container-type: inline-size;
 }
 
-.tile[data-value='X']::before {
-  content: 'X';
-  font-size: 50cqi;
+.tile:focus {
+  border-color: hsl(var(--accent));
+  outline: 3px solid hsl(var(--accent));
 }
-.tile[data-value='O']::before {
-  content: 'O';
-  font-size: 50cqi;
+
+.tile[data-hover]::before {
+  content: attr(data-hover);
+  opacity: 0.5;
+  font-size: 60cqi;
+}
+
+.tile[data-value]::before {
+  content: attr(data-value);
+  opacity: 1;
+  font-size: 60cqi;
 }
