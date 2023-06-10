@@ -30,6 +30,7 @@ function createGameboard() {
   }
   gameBoard.innerHTML = tileGrid;
   turn = 'X';
+  document.documentElement.style.setProperty('--hue', '10');
   if (!info) {
     return;
   }
@@ -73,7 +74,8 @@ function showCongrats() {
     return;
   }
   info.textContent = `${turn} wins!`;
-
+  const jsConfetti = new JSConfetti();
+  jsConfetti.addConfetti();
   gameBoard?.removeEventListener('click', handleGameboardClick);
   gameBoard?.setAttribute('inert', 'true');
   setTimeout(restartGame, 1000);

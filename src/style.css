@@ -60,8 +60,12 @@ p {
 }
 
 .tile:focus {
-  border-color: hsl(var(--accent));
-  outline: 3px solid hsl(var(--accent));
+  border-color: hsl(var(--hue) 60% 50%);
+  outline: 3px solid hsl(var(--hue) 60% 50%);
+}
+
+.tile[data-value] {
+  cursor: not-allowed;
 }
 
 .tile[data-hover]::before {
