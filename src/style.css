@@ -47,5 +47,23 @@ p {
 }
 
 .tile {
-  
+  border: 2px solid hsl(var(--text));
+  background-color: hsl(var(--bkg));
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2rem, calc(10vw+1rem), 10rem);
+  font-weight: bold;
+  aspect-ratio: 1/1;
+  container-type: inline-size;
+}
+
+.tile[data-value='X']::before {
+  content: 'X';
+  font-size: 50cqi;
+}
+.tile[data-value='O']::before {
+  content: 'O';
+  font-size: 50cqi;
 }
